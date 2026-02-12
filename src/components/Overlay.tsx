@@ -1,6 +1,6 @@
 /**
  * Overlay.tsx - Single-page portfolio with scroll fade-in sections
- * Hero, Tech Stack, Projects (orbital showcase), Contact
+ * Hero, Tech Stack, Projects (orbital showcase), Connect, Contact
  */
 import { useState } from 'react'
 import { Home, Briefcase, Mail, Send, CheckCircle } from 'lucide-react'
