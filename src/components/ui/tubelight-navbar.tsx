@@ -28,12 +28,37 @@ export function NavBar({ items, className }: NavBarProps) {
       if (match) setActiveTab(match.name)
     }
 
+    const updateActiveFromScroll = () => {
+      const triggerLine = window.innerHeight * 0.35
+      for (const item of items) {
+        const el = document.getElementById(item.url.slice(1))
+        if (!el) continue
+        const rect = el.getBoundingClientRect()
+        if (rect.top <= triggerLine && rect.bottom >= triggerLine) {
+          setActiveTab(item.name)
+          return
+        }
+      }
+      for (let i = items.length - 1; i >= 0; i--) {
+        const el = document.getElementById(items[i].url.slice(1))
+        if (!el) continue
+        if (el.getBoundingClientRect().bottom < triggerLine) {
+          setActiveTab(items[i].name)
+          return
+        }
+      }
+      setActiveTab(items[0].name)
+    }
+
     handleHashChange()
+    updateActiveFromScroll()
     window.addEventListener('hashchange', handleHashChange)
     window.addEventListener('popstate', handleHashChange)
+    window.addEventListener('scroll', updateActiveFromScroll, { passive: true })
     return () => {
       window.removeEventListener('hashchange', handleHashChange)
       window.removeEventListener('popstate', handleHashChange)
+      window.removeEventListener('scroll', updateActiveFromScroll)
     }
   }, [items])
 
